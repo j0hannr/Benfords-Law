@@ -18,6 +18,7 @@ export default function App() {
   // https://en.wikipedia.org/wiki/Benford%27s_law#Examples
   // https://www.codedrome.com/benfords-law-in-javascript/
 
+  // Benford number distribution
   const BenfordPercentages = [
     0,
     0.301,
@@ -31,52 +32,6 @@ export default function App() {
     0.046
   ];
 
-  // graph demo graph
-  const data = [
-    {
-      name: "Page A",
-      uv: 590,
-      pv: 800,
-      amt: 1400,
-      cnt: 490
-    },
-    {
-      name: "Page B",
-      uv: 868,
-      pv: 967,
-      amt: 1506,
-      cnt: 590
-    },
-    {
-      name: "Page C",
-      uv: 1397,
-      pv: 1098,
-      amt: 989,
-      cnt: 350
-    },
-    {
-      name: "Page D",
-      uv: 1480,
-      pv: 1200,
-      amt: 1228,
-      cnt: 480
-    },
-    {
-      name: "Page E",
-      uv: 1520,
-      pv: 1108,
-      amt: 1100,
-      cnt: 460
-    },
-    {
-      name: "Page F",
-      uv: 1400,
-      pv: 680,
-      amt: 1700,
-      cnt: 380
-    }
-  ];
-
   // random data set
   function getRandomData() {
     const randomData = new Array(1000);
@@ -88,10 +43,12 @@ export default function App() {
 
   function randBetween(min, max) {
     const range = max - min;
+    let n;
     n = Math.random() * range + min;
     return n;
   }
 
+  // random data set by benfords distribution
   function getBenfordData() {
     let BenfordData = [];
     let randomfactor;
@@ -110,13 +67,15 @@ export default function App() {
     return BenfordData;
   }
 
-  // const user array
-  let user = [11111, 2, 3, 4, 2, 3, 2, 4, 5, 7, 8, 9, 8, 6, 4];
-  user = user; // getRandomData() user getBenfordData()
-  // get first digit
-  let firstDigit = user.map((x) => x.toString().charAt(0));
+  // example array
+  let example = [11111, 2, 3, 4, 2, 3, 2, 4, 5, 7, 8, 9, 8, 6, 4];
+  let dataSeries = example; // getRandomData() user getBenfordData()
+
+  // get first digits of each number
+  let firstDigit = dataSeries.map((x) => x.toString().charAt(0));
+
+  // calculate result array
   let result = [];
-  // write to array
   for (let n = 0; n < 10; n++) {
     result[n] = {
       number: n,
@@ -131,11 +90,12 @@ export default function App() {
     };
   }
 
+  // rounding function
   const round = (value, decimals = 3) => {
     return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
   };
 
-  // create graph data
+  // create array for graph
   let graphdata = [];
   result.forEach((x, i) => {
     graphdata.push({
@@ -145,9 +105,8 @@ export default function App() {
     });
   });
 
-  console.log(graphdata);
-
-  function dev() {
+  // calculate Mean Absolute Deviation
+  function absoluteMeanDeviation() {
     let deviation = 0;
     result.forEach((x) => {
       console.log(Math.abs(x.frequency - x.propability), "/", x.amount);
@@ -160,9 +119,9 @@ export default function App() {
   return (
     <div className="App">
       <h1>Benfords Law</h1>
-      <p>test set für das wsw busradar</p>
-      <pre>{user}</pre>
-      <p>first Digits only</p>
+      <p>Set</p>
+      <pre>{dataSeries}</pre>
+      <p>first digits only</p>
       <pre>{firstDigit}</pre>
       <hr></hr>
       <br></br>
@@ -170,17 +129,13 @@ export default function App() {
       <ul>
         {result.map((x) => (
           <li key={x.number}>
-            {x.number} • {x.frequency} • {x.propability}
+            {x.number} • {round(x.frequency)} • {x.propability}
           </li>
         ))}
       </ul>
-      <h3>Result</h3>
-      <p>
-        Absilute Mean distribution
-        <br />
-        The lower the number the more natural the distribution.{" "}
-      </p>
-      <p>{dev()}</p>
+      <h3>Mean Absolute Deviation</h3>
+      <p>The lower the number the more natural the distribution. </p>
+      <p>{absoluteMeanDeviation()}</p>
       <hr></hr>
       <h3>Graph</h3>
       <ComposedChart
