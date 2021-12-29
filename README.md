@@ -1,6 +1,7 @@
 # Benfords Law
 
-An example of Benfords Law 📚
+An example of Benfords Law 📚<br>
+Link to [CodeSandBox](https://codesandbox.io/s/github/j0hannr/benfords-law)
 
 ## Setup
 
